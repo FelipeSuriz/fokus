@@ -15,7 +15,7 @@ const musica = new Audio('/sons/luna-rise-part-one.mp3')
 musica.loop = true
 
 musicaFocoInput.addEventListener('change', () => {
-    if(musica.paused) {
+    if (musica.paused) {
         musica.play()
         musica.currentTime = 0
     } else {
@@ -39,8 +39,8 @@ longoBt.addEventListener('click', () => {
 })
 
 function alterarContexto(contexto) {
-    botoes.forEach(function(contexto) {
-        contexto.classList.remove('active')        
+    botoes.forEach(function (contexto) {
+        contexto.classList.remove('active')
     })
     html.setAttribute('data-contexto', contexto)
     banner.setAttribute('src', `/imagens/${contexto}.png`)
@@ -70,13 +70,26 @@ function alterarContexto(contexto) {
 }
 
 const contagemRegressiva = () => {
-    // iniciar()
+    if (tempoDecorridoEmSegundos <= 0) {
+        zerar()
+        alert('Tempo finalizado!')
+        return
+    }
     tempoDecorridoEmSegundos -= 1
     console.log(`Temporizador: ${tempoDecorridoEmSegundos}`)
 }
 
-startPauseBt.addEventListener('click', contagemRegressiva)
+startPauseBt.addEventListener('click', iniciarOuPausar)
 
-function iniciar() {
+function iniciarOuPausar() {
+    if (intervaloId) {
+        zerar()
+        return
+    }
     intervaloId = setInterval(contagemRegressiva, 1000)
+}
+
+function zerar() {
+    clearInterval(intervaloId)
+    intervaloId = null
 }
